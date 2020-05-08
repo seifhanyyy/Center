@@ -1,0 +1,126 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\classes;
+use App\studentandclass;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class studentclass extends Controller
+{
+    public function __construct()
+    {
+
+        //$this->middleware('auth');
+
+    }
+    public function index()
+    {
+        return view('adminclasses');
+    }
+    //
+    public function admin()
+    {
+
+        //$classx=DB::table('classes')->where('id',$id)->get();
+        $data = classes::all();
+        return view('adminclasses', ['data' => $data]);
+    }
+    public function students()
+    {
+        //$classx=DB::table('classes')->where('id',$id)->get();
+        $data = classes::all();
+        return view('studentclasses', ['data' => $data]);
+    }
+    public function teachers()
+    {
+
+        //$classx=DB::table('classes')->where('id',$id)->get();
+        $data = classes::all();
+        return view('teacherclasses', ['data' => $data]);
+    }
+    public function viewstudents()
+    {
+
+        //$classx=DB::table('classes')->where('id',$id)->get();
+        $data = studentandclass::all();
+        return view('viewstudents', ['data' => $data]);
+    }
+    public function view(Request $request)
+    {
+        $classId = $request->input('classId');
+        $data = studentandclass::all();
+        return view('viewstudents', ['data' => $data], ['classId' => $classId]);
+    }
+    public function editclass(Request $request)
+    {
+        $classId = $request->input('classId');
+        return view('editclass', ['classId' => $classId]);
+    }
+    public function update(Request $request)
+    {
+        //$teacher = $request->$selected_val;
+
+        $classId = $request->input('classId');
+        $day = $request->input('day');
+        $subject = $request->input('subject');
+        $teacher = $request->input('teacher');
+        $starts = $request->input('starts');
+        $ends = $request->input('ends');
+        $capacity = $request->input('capacity');
+        $year = $request->input('year');
+        $gender = $request->input('gender');
+        DB::update("Update classes set day = '$day', subject = '$subject',teacher = '$teacher',starts = '$starts'
+        ,ends = '$ends',capacity = '$capacity',year = '$year',gender = '$gender' where id = '$classId'");
+        $data = classes::all();
+        return view('adminclasses', ['data' => $data]);
+    }
+    public function addclass(Request $request)
+    {
+        //$teacher = $request->$selected_val;
+
+        //$classId = $request->input('classId');
+        $day = $request->input('day');
+        $subject = $request->input('subject');
+        $teacher = $request->input('teacher');
+        $starts = $request->input('starts');
+        $ends = $request->input('ends');
+        $capacity = $request->input('capacity');
+        $year = $request->input('year');
+        $gender = $request->input('gender');
+        // DB::insert("INSERT INTO classes(day, subject, teacher, starts, ends, capacity, year, gender) VALUES 
+        // ($day,$subject,$teacher,$starts,$ends,$capacity,$year,$gender)");
+         $data = array('day' => $day, 'subject' => $subject, 'teacher' => $teacher, 'starts' => $starts
+         , 'ends' => $ends, 'capacity' => $capacity, 'year' => $year, 'gender' => $gender);
+        //$data = array($day,$subject,$teacher,$starts,$ends,$capacity,$year,$gender);
+        DB::table('classes')->insert($data);
+        //DB::insert("Insert $data into classes");
+        return view('addclass');
+    }
+    // protected function update(array $data)
+    // {
+    //     return classes::update([
+    //         'day' => $data['day'],
+    //         'subject'=>$data['subject'],
+    //         'teacher' => $data['teacher'],
+    //         'starts'=>$data['starts'],
+    //         'ends'=>$data['ends'],
+    //         'capacity'=>$data['capacity'],
+    //         'year'=>$data['year'],
+    //         'gender'=>$data['gender']
+    //     ])
+    //     ->where("classes.id = $data['classId']");
+    // }
+    public function insert(Request $request)
+    {
+        $classId = $request->input('classId');
+        $studentId = "1";
+        $data = array('studentId' => $studentId, "classId" => $classId);
+        DB::table('studentandclasses')->insert($data);
+        //////////////////////////////////////////////////////
+        $capacity = $request->input('capacity');
+        $capacity--;
+        DB::table('classes')->where('id', $classId)->update(['capacity' => $capacity]);
+    }
+}
