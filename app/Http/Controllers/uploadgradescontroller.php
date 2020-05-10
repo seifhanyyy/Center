@@ -10,16 +10,32 @@ class uploadgradescontroller extends Controller
 {
     public function index()
     {
-        //$statment1 = DB::select("select * from users INNER JOIN studentandclass on users.id = studentandclass.studentid");
-        //$x = AUTH::user()->name;
-        //$statment2 = DB::select("select * from classes where teacher=$x");
-        //$uploadgrade = DB::select("select name,year,courseid from $statment1 UNION $statment2");
-        $uploadgrade = DB::select("select * from users");
+        $x = AUTH::user()->name;
+        $uploadgrade = DB::select("select * from users INNER JOIN studentandclasses on users.id = studentandclasses.studentId
+        INNER JOIN classes on studentandclasses.classId=classes.id where classes.teacher='$x'");
+        $statment2 = DB::select("select * from classes where teacher='$x'");
+        //$uploadgrade = DB::select("select name,selected,courseid from $statment1 UNION $statment2");
+        //$uploadgrade = DB::select("select * from users");
         return view('UploadGrade', ['uploadgrade' => $uploadgrade]);
     }
 
-    public function update()
+    function update(Request $request)
     {
-        DB::update("update grades set quizweek=1 where sid=3");
+        $week = $request->input('QuizWeek');
+        $grade = $request->input('Grade');
+        $sid = $request->input('id');
+        DB::update("update grades set quizweek=$week, grade=$grade where sid=$sid");
+        return view("/Teacher");
+    }
+
+
+    public function insert(Request $request)
+    {
+        $week = $request->input('QuizWeek');
+        $grade = $request->input('Grade');
+        $sid = $request->input('id');
+        $data = array('sid' => $sid, "quizweek" => $week, "grade" => $grade);
+        DB::table('grades')->insert($data);
+        return view("/Teacher");
     }
 }

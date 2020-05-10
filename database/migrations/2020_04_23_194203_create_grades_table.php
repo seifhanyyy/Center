@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGradeTable extends Migration
+class CreateGradesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateGradeTable extends Migration
      */
     public function up()
     {
-        Schema::create('ofa7', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('sid');
+        Schema::create('grades', function (Blueprint $table) {
+            $table->unsignedBigInteger('sid');
             $table->integer('quizweek');
             $table->string('grade');
             $table->timestamps();
+            $table->primary(['sid', 'quizweek']);
+            $table->foreign('sid')->references('id')->on('users')->onDelete('cascade')->constrained();
         });
     }
 
@@ -29,6 +30,6 @@ class CreateGradeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ofa7');
+        Schema::dropIfExists('grades');
     }
 }

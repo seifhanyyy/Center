@@ -110,15 +110,14 @@
                                     &nbsp;
 
 
-                                    <div class="checkbox">
-                                    <label>
-                                    </label>
-                                    </div>
-
-                            <div class="checkbox">
-                                             <label>
-                                            </label>
-                                                         </div>
+                                    <fieldset data-role="controlgroup" name="Gender">
+        <label for="male" >Male</label>
+        <input type="radio" name="gender" id="male" value="male" checked>
+        <label for="female">Female</label>
+        <input type="radio" name="gender" id="female" value="female">
+        <label for="Helicopter">Helicopter</label>
+        <input type="radio" name="gender" id="Helicopter" value="Helicopter">
+      </fieldset>
                                 
                                 </div>
                             <div class="form-group row mb-0">

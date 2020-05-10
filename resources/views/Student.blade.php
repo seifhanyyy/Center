@@ -35,8 +35,9 @@
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav navbar-right">
-          <li class="btn-trial"><a href="studentclasses.php">View Classes</a></li>
+          <li class="btn-trial"><a href="/studentclasses">View Classes</a></li>
           <li class="btn-trial"><a href="/profile">Profile</a></li>
+          <li class="btn-trial"><a href="https://drive.google.com/open?id=1SGmnWhhbDm5lb2vsyP5z-sfcTxZDi-O1">Course Mats</a></li>
           <li class="btn-trial"><a href="/logout">Sign out</a></li>
         </ul>
       </div>

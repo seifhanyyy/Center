@@ -6,6 +6,7 @@ use App\classes;
 use App\studentandclass;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class studentclass extends Controller
 {
@@ -112,15 +113,31 @@ class studentclass extends Controller
     //     ])
     //     ->where("classes.id = $data['classId']");
     // }
+    
     public function insert(Request $request)
     {
         $classId = $request->input('classId');
-        $studentId = "1";
-        $data = array('studentId' => $studentId, "classId" => $classId);
+    
+        $data = array('studentId' => Auth::user()->id, "classId" => $classId);
         DB::table('studentandclasses')->insert($data);
         //////////////////////////////////////////////////////
         $capacity = $request->input('capacity');
         $capacity--;
         DB::table('classes')->where('id', $classId)->update(['capacity' => $capacity]);
+        return view('Student');
+
+    }
+    public function Delete(Request $request)
+    {
+        $classId = $request->input('classId');
+    $alpha=Auth::user()->id;
+        DB::table('studentandclasses')->where('studentId',$alpha)
+        ->where('classId',$classId)
+        ->delete();
+        //////////////////////////////////////////////////////
+        $capacity = $request->input('capacity');
+        $capacity++;
+        DB::table('classes')->where('id', $classId)->update(['capacity' => $capacity]);
+        return view('Student');
     }
 }

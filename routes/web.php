@@ -28,22 +28,21 @@ Route::get('/logout', function () {
 Route::get('/AddTeacher', function () {
     return view('AddTeacher');
 });
-Route::get('/AddCourse', function () {
+Route::get('/addclass', function () {
     if(Auth::user()->type == 1){
-    return view('AddCourse');
+    return view('addclass');
     }else if (Auth::user()->type == 2)
     {
         return view('Teacher');
+      
     }else
     {
-       
-        return view('Student','student');
         echo"<script>Alert('Admins Only Sorry hacker');</script>";
+        return view('Student','student');
+     
     }
 });
-Route::get('/addclass', function () {
-    return view('addclass');
-});
+
 Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.reset');
     Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
     Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset.token');
@@ -55,7 +54,14 @@ Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->na
     Route::get('/teacherclasses', 'studentclass@teachers');
     Route::get('/view', 'studentclass@view');
     Route::get('/adminclasses', 'studentclass@admin');
+    Route::get('/DropClass', 'studentclass@Delete');
 
+
+
+    Route::get('Grade', 'gradescontroller@index')->name('Grade');
+    Route::get('UploadGrade', 'uploadgradescontroller@index')->name('UploadGrade');
+    Route::get('/insertgrades', 'uploadgradescontroller@insert');
+    Route::get('/updategrades', 'uploadgradescontroller@update');
 
 
 Auth::routes();

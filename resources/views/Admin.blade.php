@@ -15,11 +15,7 @@
 
 
 </head>
-<?php
 
-
-
-?>
 
 <body>
   <!--Navigation bar-->
@@ -35,8 +31,8 @@
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav navbar-right">
-          <li class="btn-trial"><a href="/Adminclasses">Edit Classes</a></li>
-          <li class="btn-trial"><a href="/profile">Profile</a></li>
+          <li class="btn-trial"><a href="/adminclasses">Edit Classes</a></li>
+          <li class="btn-trial"><a href="/addclass">Add Classes</a></li>
           <li class="btn-trial"><a href="/AddTeacher">Add Teacher</a></li>
           <li class="btn-trial"><a href="#">Transfer students</a></li>
           <li class="btn-trial"><a href="/logout">Sign out</a></li>

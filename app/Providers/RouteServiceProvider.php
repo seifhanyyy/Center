@@ -21,10 +21,10 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/password/reset';
+    public const HOME = '/';
     public const ADMIN = '/ADMIN';
     public const POO = '/Profile';
-
+    public const OfA7 = '/password/reset';
 
 
     public const  loggedin = '/';

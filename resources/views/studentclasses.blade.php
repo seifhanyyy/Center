@@ -61,7 +61,7 @@ h4{
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/Admin">Al-Mishkah<span></span></a>
+        <a class="navbar-brand" href="/Student">Al-Mishkah<span></span></a>
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav navbar-right">
@@ -71,8 +71,8 @@ h4{
     </div>
   </nav>
   <!--/ Navigation bar-->
-<h2>Edit Classes</h2>
-<h3>1st Year</h3>
+<h2>Book/Drop your classes</h2>
+<h3>Choose your available days</h3>
 </script>
 <form action="#" method="get">
 <select name="days">
@@ -99,6 +99,7 @@ $selected_val = $_GET['days'];  // Storing Selected Value In Variable
   <tr>
     <th>Day</th>
     <th>Teacher</th>
+    <th>Subject</th>
     <th>Starts</th>
     <th>Ends</th>
     <th>Capacity</th>
@@ -106,19 +107,31 @@ $selected_val = $_GET['days'];  // Storing Selected Value In Variable
   </tr>
 
   <?php 
+    use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\DB;
+    $alpha=Auth::user()->id;
   foreach($data as $i)
   {
   $s = $i->day;
-  if($selected_val == $s AND $i->year == 1 AND  $i->gender == 0)
+  if($selected_val == $s AND $i->year ==Auth::user()->selected AND  $i->gender == Auth::user()->gender)
   {
     //$x = "$i->id";
     echo"<tr>";
     echo"<td>$i->day</td>";
     echo"<td>$i->teacher</td>";
+    echo"<td>$i->subject</td>";
     echo"<td>$i->starts</td>";
     echo"<td>$i->ends</td>";
     echo"<td>$i->capacity</td>";
-    if($i->capacity > 0)
+    if(DB::select("select * from studentandclasses where studentId='$alpha' AND classId='$i->id'"))
+{
+  echo"<form action='/DropClass' method='get'>";
+    echo"<input type = 'hidden' name = 'classId' value = '$i->id'/>";
+    echo"<input type = 'hidden' name = 'capacity' value = '$i->capacity'/>";
+    echo"<th><input type='submit' value='Drop' name='Drop'/></th>";
+    echo"</form>";
+}
+    else if($i->capacity > 0)
     {
     echo"<form action='/insert' method='get'>";
     echo"<input type = 'hidden' name = 'classId' value = '$i->id'/>";
@@ -132,138 +145,12 @@ $selected_val = $_GET['days'];  // Storing Selected Value In Variable
     }
   }
 }
+
+
+
+
+
   ?>
-</table>
-<?php
-// if(isset($_GET['book'])){
-//   echo"alo";
-//   return studentandclass::create([
-//       'classId' => $i->id,
-//       'studentId'=> 1,
-//   ]);
-// }
-?>
-
-
-<h3>2nd Year</h3>
-<h4 for="days">Choose the day:
-<select id="days">
-  <option value="volvo">Saturday</option>
-  <option value="saab">Sunday</option>
-  <option value="opel">Monday</option>
-  <option value="audi">Tuesday</option>
-</select>
-</h4>
-<table style="float: center;">
-  <tr>
-    <th>Day</th>
-    <th>Time</th>
-    <th>Capacity</th>
-    <th>Change</th>
-  </tr>
-  <tr>
-    <td>Saturday</td>
-    <td>2:00 - 4:00PM</td>
-    <td>5/11</td>
-    <th><a href='#'?id=$id>Edit</a></th>
-  </tr>
-  <tr >
-    <td>Sunday</td>
-    <td>Francisco Chang</td>
-    <td>Mexico</td>
-    <th><a href='#'?id=$id>Edit</a></th>
-  </tr>
-  <tr>
-    <td>Monday</td>
-    <td>Roland Mendel</td>
-    <td>Austria</td>
-    <th><a href='#'?id='$id'>Edit</a></th>
-  </tr>
-  <tr>
-    <td>Tuesday</td>
-    <td>Helen Bennett</td>
-    <td>UK</td>
-    <th><a href='#'?id='$id'>Edit</a></th>
-  </tr>
-  <tr>
-    <td>Wednesday</td>
-    <td>Yoshi Tannamuri</td>
-    <td>Canada</td>
-    <th><a href='#'?id='$id'>Edit</a></th>
-  </tr>
-  <tr>
-    <td>Thursday</td>
-    <td>Giovanni Rovelli</td>
-    <td>Italy</td>
-    <th><a href='#'?id='$id'>Edit</a></th>
-  </tr>
-  <tr>
-    <td>Friday</td>
-    <td>Giovanni Rovelli</td>
-    <td>Italy</td>
-    <th><a href='#'?id='$id'>Edit</a></th>
-  </tr>
-</table>
-
-<h3>3rd Year</h3>
-<h4 for="days">Choose the day:
-<select id="days">
-  <option value="volvo">Saturday</option>
-  <option value="saab">Sunday</option>
-  <option value="opel">Monday</option>
-  <option value="audi">Tuesday</option>
-</select>
-</h4>
-<table style="float: center;">
-  <tr>
-    <th>Day</th>
-    <th>Time</th>
-    <th>Capacity</th>
-    <th>Change</th>
-  </tr>
-  <tr>
-    <td>Saturday</td>
-    <td>2:00 - 4:00PM</td>
-    <td>5/11</td>
-    <th><a href='#'?id='$id'>Edit</a></th>
-  </tr>
-  <tr >
-    <td>Sunday</td>
-    <td>Francisco Chang</td>
-    <td>Mexico</td>
-    <th><a href='#'?id='$id'>Edit</a></th>
-  </tr>
-  <tr>
-    <td>Monday</td>
-    <td>Roland Mendel</td>
-    <td>Austria</td>
-    <th><a href='#'?id='$id'>Edit</a></th>
-  </tr>
-  <tr>
-    <td>Tuesday</td>
-    <td>Helen Bennett</td>
-    <td>UK</td>
-    <th><a href='#'?id='$id'>Edit</a></th>
-  </tr>
-  <tr>
-    <td>Wednesday</td>
-    <td>Yoshi Tannamuri</td>
-    <td>Canada</td>
-    <th><a href='#'?id='$id'>Edit</a></th>
-  </tr>
-  <tr>
-    <td>Thursday</td>
-    <td>Giovanni Rovelli</td>
-    <td>Italy</td>
-    <th><a href='#'?id='$id'>Edit</a></th>
-  </tr>
-  <tr>
-    <td>Friday</td>
-    <td>Giovanni Rovelli</td>
-    <td>Italy</td>
-    <th><a href='#'?id='$id'>Edit</a></th>
-  </tr>
-
 </table>
 </body>
 </html>
